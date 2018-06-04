@@ -34,7 +34,7 @@ class GoodsCategory(models.Model):
 
 class GoodsCategoryBrand(models.Model):
     """
-    品牌名
+    类别下品牌名
     """
     category = models.ForeignKey(GoodsCategory, related_name='brands', null=True, blank=True, verbose_name="商品类目")
     name = models.CharField(default="", max_length=30, verbose_name="品牌名", help_text="品牌名")

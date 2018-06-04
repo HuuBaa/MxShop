@@ -13,9 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url,include
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+import xadmin
+from rest_framework.documentation import include_docs_urls
+from goods.views import GoodsListView
+
 # from django.contrib import admin
 
 urlpatterns = [
-    # url(r'^admin/', admin.site.urls),
-]
+    url(r'^xadmin/', xadmin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^doc/', include_docs_urls(title="慕学生鲜")),
+
+    url(r'^goods/$',GoodsListView.as_view(),name="goods_list")
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
