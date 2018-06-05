@@ -20,14 +20,18 @@ from django.conf.urls.static import static
 
 import xadmin
 from rest_framework.documentation import include_docs_urls
-from goods.views import GoodsListView
+from goods.views import GoodsListViewSet,CategoryViewSet
+from rest_framework.routers import DefaultRouter
 
 # from django.contrib import admin
+router=DefaultRouter()
+router.register(r'goods',GoodsListViewSet)
+router.register(r'categorys',CategoryViewSet)
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^doc/', include_docs_urls(title="慕学生鲜")),
 
-    url(r'^goods/$',GoodsListView.as_view(),name="goods_list")
+    url(r'^',include(router.urls))
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
