@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'xadmin',
     'rest_framework',
     'django_filters',
-    'corsheaders',
+    'corsheaders', #跨域解决
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,20 @@ STATIC_URL = '/static/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
 
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
+import datetime
+JWT_AUTH = {
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}

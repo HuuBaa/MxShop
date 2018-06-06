@@ -11,15 +11,17 @@ from .serializer import GoodsSerializer,CategorySerializer
 from .filters import GoodsFilter
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'
-    page_query_param = "p"
+    page_query_param = "page"
     max_page_size = 100
 
 class CategoryViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,viewsets.GenericViewSet):
     """
     list:
-        商品分类列表数据
+        一级商品分类数据列表
+    retrieve:
+        单个商品类别详情
     """
     queryset = GoodsCategory.objects.all().order_by("id").filter(category_type=1)
     serializer_class = CategorySerializer
@@ -38,7 +40,7 @@ class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
 
     filter_class=GoodsFilter
     search_fields=("name","goods_brief","goods_desc")
-    ordering_fields=("sold_num","add_time")
+    ordering_fields=("sold_num","shop_price")
 
 
 
