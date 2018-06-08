@@ -19,16 +19,16 @@ class StandardResultsSetPagination(PageNumberPagination):
 class CategoryViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,viewsets.GenericViewSet):
     """
     list:
-        一级商品分类数据列表
+        一级分类数据列表
     retrieve:
-        单个商品类别详情
+        单个类别详情
     """
     queryset = GoodsCategory.objects.all().order_by("id").filter(category_type=1)
     serializer_class = CategorySerializer
 
 
 
-class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,viewsets.GenericViewSet):
     """
     列出所有商品,分页，搜索，过滤，排序
     """
@@ -43,17 +43,3 @@ class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     ordering_fields=("sold_num","shop_price")
 
 
-
-
-    # def get(self, request, format=None):
-    #     goods = Goods.objects.all()[:10]
-    #     goods_serializer = GoodsSerializer(goods, many=True)
-    #     return Response(goods_serializer.data)
-
-
-    # def post(self, request, format=None):
-    #     serializer = GoodsSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

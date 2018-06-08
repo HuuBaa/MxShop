@@ -14,21 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url,include
-
 from django.conf import settings
 from django.conf.urls.static import static
 
-import xadmin
 from rest_framework.documentation import include_docs_urls
-from goods.views import GoodsListViewSet,CategoryViewSet
 from rest_framework.routers import DefaultRouter
-from  rest_framework.authtoken import views
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_jwt.views import obtain_jwt_token
+
+import xadmin
+from goods.views import GoodsListViewSet,CategoryViewSet
+from users.views import SmsSendViewSet,UserViewSet
+from user_operation.views import UserFavViewSet,UserLeavingMessageViewSet,UserAddressViewSet
 
 # from django.contrib import admin
 router=DefaultRouter()
-router.register(r'goods',GoodsListViewSet)
-router.register(r'categorys',CategoryViewSet)
+router.register(r'goods',GoodsListViewSet,base_name="goods")
+router.register(r'categorys',CategoryViewSet,base_name="categorys")
+router.register(r'codes',SmsSendViewSet,base_name="codes")
+router.register(r'users',UserViewSet,base_name="users")
+router.register(r'userfavs',UserFavViewSet,base_name="userfavs")
+router.register(r'messages',UserLeavingMessageViewSet,base_name="messages")
+router.register(r'address',UserAddressViewSet,base_name="address")
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -37,7 +44,7 @@ urlpatterns = [
 
     url(r'^',include(router.urls)),
     #drf自带token认证
-    url(r'^api-token-auth/',views.obtain_auth_token),
+    url(r'^api-token-auth/',obtain_auth_token),
     #jwt认证
     url(r'^login/',obtain_jwt_token)
 

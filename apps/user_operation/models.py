@@ -13,7 +13,7 @@ class UserFav(models.Model):
     用户收藏
     """
     user = models.ForeignKey(User, verbose_name="用户")
-    goods = models.ForeignKey(Goods, verbose_name="商品", help_text="商品id")
+    goods = models.ForeignKey(Goods, verbose_name="商品",help_text="商品id")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
@@ -22,7 +22,7 @@ class UserFav(models.Model):
         unique_together = ("user", "goods")
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 
 class UserLeavingMessage(models.Model):
@@ -64,6 +64,7 @@ class UserAddress(models.Model):
     signer_name = models.CharField(max_length=100, default="", verbose_name="签收人")
     signer_mobile = models.CharField(max_length=11, default="", verbose_name="电话")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
 
     class Meta:
         verbose_name = "收货地址"

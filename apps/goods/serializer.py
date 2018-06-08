@@ -4,7 +4,7 @@ __date__ = '2018/6/4 20:11'
 
 from rest_framework import serializers
 
-from goods.models import Goods,GoodsCategory
+from goods.models import Goods,GoodsCategory,GoodsImage
 
 class CategorySerializer3(serializers.ModelSerializer):
     class Meta:
@@ -24,20 +24,17 @@ class CategorySerializer(serializers.ModelSerializer):
         model=GoodsCategory
         fields="__all__"
 
+
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=GoodsImage
+        fields=("image",)
+
 class GoodsSerializer(serializers.ModelSerializer):
     category=CategorySerializer()
-
+    images=GoodsImageSerializer(many=True)
     class Meta:
         model=Goods
         fields="__all__"
 
 
-    # goods_sn = serializers.CharField(max_length=50, default="")
-    # name = serializers.CharField(required=True, max_length=100)
-    # goods_front_image = serializers.ImageField() \
-    #
-    # def create(self, validated_data):
-    #     """
-    #     Create and return a new `Goods` instance, given the validated data.
-    #     """
-    #     return Goods.objects.create(**validated_data)

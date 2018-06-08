@@ -15,11 +15,12 @@ class YunPian(object):
         parmas={
             "apikey":self.api_key,
             "mobile":mobile,
-            "text":"{code}".format(code)
+            "text":"{code}".format(code=code)
         }
         res=requests.post(self.single_url,data=parmas)
         import json
         res_dict=json.loads(res.text)
+        return res_dict
 
 if __name__=="__main__":
     yunpian=YunPian("e2544837707f96fd0f2817b2e92f5507")
