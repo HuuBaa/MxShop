@@ -26,6 +26,7 @@ import xadmin
 from goods.views import GoodsListViewSet,CategoryViewSet
 from users.views import SmsSendViewSet,UserViewSet
 from user_operation.views import UserFavViewSet,UserLeavingMessageViewSet,UserAddressViewSet
+from trade.views import ShoppingCartViewSet,OrderInfoViewSet
 
 # from django.contrib import admin
 router=DefaultRouter()
@@ -36,6 +37,9 @@ router.register(r'users',UserViewSet,base_name="users")
 router.register(r'userfavs',UserFavViewSet,base_name="userfavs")
 router.register(r'messages',UserLeavingMessageViewSet,base_name="messages")
 router.register(r'address',UserAddressViewSet,base_name="address")
+router.register(r'shopcarts',ShoppingCartViewSet,base_name="shopcarts")
+router.register(r'orders',OrderInfoViewSet,base_name="orders")
+
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),

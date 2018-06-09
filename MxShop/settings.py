@@ -29,7 +29,7 @@ SECRET_KEY = 'o36(0pv%c_c8b^opbp)nhpus+boldae^__8k&jv8ucn01g@357'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL="users.UserProfile"
 
@@ -92,17 +92,31 @@ WSGI_APPLICATION = 'MxShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'mxshop',
+#         'USER':'root',
+#         'PASSWORD':'password',
+#         'HOST':'127.0.0.1',
+#         'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;' }
+#     }
+# }
+
+MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
+print(MYSQL_PASSWORD)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
         'NAME': 'mxshop',
-        'USER':'root',
-        'PASSWORD':'password',
-        'HOST':'127.0.0.1',
+        'USER': 'root',
+        'PASSWORD':MYSQL_PASSWORD,
+        'PORT': '3306',
         'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;' }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
