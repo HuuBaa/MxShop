@@ -154,6 +154,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATICFILES_DIRS=(
+    os.path.join(BASE_DIR,"static"),
+)
+
 STATIC_URL = '/static/'
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
@@ -178,3 +182,7 @@ JWT_AUTH = {
 
 MOBILE_REG="^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$"
 YUANPIAN_API_KEY="e2544837707f96fd0f2817b2e92f5507"
+
+#支付宝相关配置
+private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/private_2048.txt')
+ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_key_2048.txt')

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
@@ -26,7 +27,7 @@ import xadmin
 from goods.views import GoodsListViewSet,CategoryViewSet
 from users.views import SmsSendViewSet,UserViewSet
 from user_operation.views import UserFavViewSet,UserLeavingMessageViewSet,UserAddressViewSet
-from trade.views import ShoppingCartViewSet,OrderInfoViewSet
+from trade.views import ShoppingCartViewSet,OrderInfoViewSet,ReturnAlipayView
 
 # from django.contrib import admin
 router=DefaultRouter()
@@ -50,6 +51,10 @@ urlpatterns = [
     #drf自带token认证
     url(r'^api-token-auth/',obtain_auth_token),
     #jwt认证
-    url(r'^login/',obtain_jwt_token)
+    url(r'^login/',obtain_jwt_token),
+    #alipay
+    url(r'^alipay/return/',ReturnAlipayView.as_view()),
+
+    url(r'^index/',TemplateView.as_view(template_name="index.html"),name="index")
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
