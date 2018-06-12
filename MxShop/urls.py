@@ -24,7 +24,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_jwt.views import obtain_jwt_token
 
 import xadmin
-from goods.views import GoodsListViewSet,CategoryViewSet
+from goods.views import GoodsListViewSet,CategoryViewSet,BannerViewSet,IndexCategoryViewSet
 from users.views import SmsSendViewSet,UserViewSet
 from user_operation.views import UserFavViewSet,UserLeavingMessageViewSet,UserAddressViewSet
 from trade.views import ShoppingCartViewSet,OrderInfoViewSet,ReturnAlipayView
@@ -40,7 +40,8 @@ router.register(r'messages',UserLeavingMessageViewSet,base_name="messages")
 router.register(r'address',UserAddressViewSet,base_name="address")
 router.register(r'shopcarts',ShoppingCartViewSet,base_name="shopcarts")
 router.register(r'orders',OrderInfoViewSet,base_name="orders")
-
+router.register(r'banners',BannerViewSet,base_name="banners")
+router.register(r'indexgoods',IndexCategoryViewSet,base_name='indexgoods')
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -54,6 +55,7 @@ urlpatterns = [
     url(r'^login/',obtain_jwt_token),
     #alipay
     url(r'^alipay/return/',ReturnAlipayView.as_view()),
+
 
     url(r'^index/',TemplateView.as_view(template_name="index.html"),name="index")
 

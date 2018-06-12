@@ -92,31 +92,31 @@ WSGI_APPLICATION = 'MxShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'mxshop',
-#         'USER':'root',
-#         'PASSWORD':'password',
-#         'HOST':'127.0.0.1',
-#         'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;' }
-#     }
-# }
-
-MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
-print(MYSQL_PASSWORD)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
         'NAME': 'mxshop',
-        'USER': 'root',
-        'PASSWORD':MYSQL_PASSWORD,
-        'PORT': '3306',
+        'USER':'root',
+        'PASSWORD':'password',
+        'HOST':'127.0.0.1',
         'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;' }
     }
 }
+#
+# MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
+# print(MYSQL_PASSWORD)
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': '127.0.0.1',
+#         'NAME': 'mxshop',
+#         'USER': 'root',
+#         'PASSWORD':MYSQL_PASSWORD,
+#         'PORT': '3306',
+#         'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;' }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -168,6 +168,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     )
+    ,
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '300/day'
+    }
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -186,3 +195,8 @@ YUANPIAN_API_KEY="e2544837707f96fd0f2817b2e92f5507"
 #支付宝相关配置
 private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/private_2048.txt')
 ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_key_2048.txt')
+
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5
+}
+

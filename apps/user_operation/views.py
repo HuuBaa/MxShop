@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from rest_framework import mixins,viewsets
+from rest_framework import mixins,viewsets,status
 from .serializer import UserFavSerializer,UserFavDetailSerializer,UserLeavingMessageSerializer,UserAddressSerializer
 from .models import UserFav,UserLeavingMessage,UserAddress
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from utils.permissions import IsOwnerOrReadOnly
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -29,6 +30,19 @@ class UserFavViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin,mixins.Li
 
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        instance=serializer.save()
+        goods=instance.goods
+        goods.fav_num+=1
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.fav_num -= 1
+        goods.save()
+        instance.delete()
+
 
 class UserLeavingMessageViewSet(mixins.CreateModelMixin,mixins.ListModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     """

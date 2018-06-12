@@ -41,6 +41,29 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return ShoppingCart.objects.filter(user=self.request.user)
 
+    def perform_create(self, serializer):
+        shop_cart=serializer.save()
+        goods=shop_cart.goods
+        goods.goods_num-=shop_cart.nums
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    def perform_update(self, serializer):
+        pre_num=ShoppingCart.objects.get(id=serializer.instance.id).nums
+
+        save_record=serializer.save()
+        save_num=save_record.nums
+
+        nums=pre_num-save_num
+        goods=save_record.goods
+        goods.goods_num+=nums
+        goods.save()
+
 
 class OrderInfoViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin,
                        mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -145,6 +168,12 @@ class ReturnAlipayView(views.APIView):
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
+                order_goods=existed_order.goods
+                for order_good in order_goods:
+                    goods=order_good.goods
+                    goods.sold_num+=order_good.goods_num
+                    goods.save()
+
                 existed_order.pay_status = 'TRADE_SUCCESS'
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()
