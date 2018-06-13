@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders', #跨域解决
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -181,8 +184,13 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.qq.QQOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
+#JWT登录
 import datetime
 JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
@@ -200,3 +208,7 @@ REST_FRAMEWORK_EXTENSIONS = {
     'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5
 }
 
+#三方登录
+SOCIAL_AUTH_WEIBO_KEY = '1630484877'
+SOCIAL_AUTH_WEIBO_SECRET = '89ac97161d76f488a29256f6d19049be'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/index/'

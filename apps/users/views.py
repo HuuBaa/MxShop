@@ -101,6 +101,7 @@ class UserViewSet(mixins.UpdateModelMixin,mixins.RetrieveModelMixin,mixins.Creat
 
         playload=jwt_payload_handler(user)
         res_dict["token"]=jwt_encode_handler(playload)
+        res_dict["name"] = user.name if user.name else user.username
 
         headers = self.get_success_headers(serializer.data)
         return Response(res_dict, status=status.HTTP_201_CREATED, headers=headers)

@@ -52,10 +52,12 @@ urlpatterns = [
     #drf自带token认证
     url(r'^api-token-auth/',obtain_auth_token),
     #jwt认证
-    url(r'^login/',obtain_jwt_token),
+    url(r'^login/$',obtain_jwt_token),
     #alipay
     url(r'^alipay/return/',ReturnAlipayView.as_view()),
 
+    #第三方登录
+    url('', include('social_django.urls', namespace='social')),
 
     url(r'^index/',TemplateView.as_view(template_name="index.html"),name="index")
 
