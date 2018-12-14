@@ -23,5 +23,5 @@ class YunPian(object):
         return res_dict
 
 if __name__=="__main__":
-    yunpian=YunPian("e2544837707f96fd0f2817b2e92f5507")
-    yunpian.send_sms("5201","13123920239")
+    yunpian=YunPian("key")
+    yunpian.send_sms("5201","**")

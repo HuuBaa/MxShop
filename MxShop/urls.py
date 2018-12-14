@@ -43,6 +43,7 @@ router.register(r'orders',OrderInfoViewSet,base_name="orders")
 router.register(r'banners',BannerViewSet,base_name="banners")
 router.register(r'indexgoods',IndexCategoryViewSet,base_name='indexgoods')
 
+
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
